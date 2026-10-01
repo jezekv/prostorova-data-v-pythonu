@@ -1,6 +1,6 @@
 # 1. Teoretický úvod a konfigurace prostředí
 
-Před psaním prvních řádků kódu je dobré nejdříve porozumět ekosystému nástrojů, které budeme používat. Ve Spatial Data Science nepracujeme v jediném programu, ale kombinujeme tři základní vrstvy: **programovací jazyk**, **vývojové prostředí** a **správce balíčků a prostředí**.  
+Před psaním prvních řádků kódu je dobré nejdříve porozumět ekosystému nástrojů, které budeme používat. Celé vývojové zázemí stavíme na třech vrstvách: **programovacím jazyku**, **vývojovém prostředí** a **správci balíčků a prostředí**.  
 
 ## 1.1 Programovací jazyk: Python
 **Python** je interpretovaný, vysokoúrovňový programovací jazyk, který se stal de facto standardem pro Spatial Data Science.
@@ -8,7 +8,7 @@ Před psaním prvních řádků kódu je dobré nejdříve porozumět ekosystém
 ### Proč je Python tak populární?
 * Syntaxe Pythonu je blízká přirozené angličtině.
 * Nemusíte řešit nízkoúrovňové technické detaily počítače (např. ruční správu paměti atd.).
-* Pro Python existují tisíce specializovaných knihoven. V našem kurzu využijeme například `GeoPandas` (vektory) a `xarray` s `rioxarray` (vícerozměrné rastry).
+* Pro Python existují tisíce specializovaných knihoven. V našem kurzu využijeme například **GeoPandas** (vektory) a **Xarray** s **Rioxarray** (vícerozměrné rastry).
 * Díky obrovské základně uživatelů existuje řešení pro téměř každý problém na platformách jako např. Stack Overflow.
 
 ## 1.2 Vývojové prostředí: Jupyter Notebook a VS Code
@@ -40,7 +40,7 @@ Namísto instalace Pythonu přímo do operačního systému je pro prostorová d
 
 * **Anaconda vs. Conda:** Anaconda je distribuce obsahující Python a stovky předinstalovaných knihoven, zatímco Conda je samotný nástroj (příkaz v systému), který instaluje balíčky a spravuje virtuální prostředí.
 * Conda jako správce prostředí umožňuje vytvořit oddělený prostor pro každý projekt s vlastní verzí Pythonu i balíčků. Změna knihovny v jednom projektu neovlivní ostatní projekty v počítači.
-* Knihovny jako `GeoPandas` mají složité závislosti na C++ knihovnách (GDAL, GEOS, PROJ). Conda tyto závislosti řeší automaticky při instalaci, zatímco standardní nástroj `pip` zde často selhává.
+* Knihovny jako GeoPandas mají složité závislosti na C++ knihovnách (GDAL, GEOS, PROJ). Conda tyto závislosti řeší automaticky při instalaci, zatímco standardní nástroj `pip` zde často selhává.
 
 > **Tip:** Pokud preferujete rychlou a úspornou instalaci bez stovek předem přibalených balíčků, skvělou alternativou k plné Anacondě je **Miniconda**. Ta nainstaluje čistý Python se správcem Conda a potřebné knihovny si přidáte na míru.
 
@@ -72,6 +72,8 @@ Aby notebook věděl, v jaké instalaci Pythonu má příkazy provádět, musím
 2.  V rozbalovacím menu zvolte **Python Environments...**.
 3.  Vyberte instanci označenou jako `base (conda)` nebo verzi Pythonu odpovídající vaší instalaci Anacondy.
 4.  Úspěšné propojení je signalizováno zobrazením verze Pythonu v pravém horním rohu (např. *Python 3.10.x*).
+
+> **Tip:** V praxi se pro jednotlivé projekty běžně vytvářejí samostatná izolovaná prostředí. Pro účely našeho kurzu však pro jednoduchost využijeme výchozí prostředí `base`, kde je většina nástrojů již předpřipravena.
 
 ## 2.4 Ověření funkčnosti prostředí
 Pro kontrolu, zda notebook skutečně komunikuje se zvoleným Conda prostředím, otestujeme první buňku.
@@ -109,7 +111,7 @@ V operačním systému se běžně vyskytuje více různých instalací Pythonu 
 Pro práci s komplexními balíčky je **Conda** doporučeným standardem, protože umí kromě samostatného Pythonu nainstalovat i potřebné nízkoúrovňové systémové knihovny.
 
 **Proč instalovat GeoPandas přes Condu?**
-Knihovna `GeoPandas` je závislá na nízkoúrovňových knihovnách psaných v C++ (zejména GDAL, GEOS a PROJ). Zatímco standardní `pip` vyžaduje jejich kompilaci v systému (což bývá zdrojem chyb), Conda je instaluje v již zkompilované a otestované podobě.
+Knihovna GeoPandas je závislá na nízkoúrovňových knihovnách psaných v C++ (zejména GDAL, GEOS a PROJ). Zatímco standardní `pip` vyžaduje jejich kompilaci v systému (což bývá zdrojem chyb), Conda je instaluje v již zkompilované a otestované podobě.
 
 ### Instalace přes Anaconda Prompt
 Instalaci je sice možné provést více způsoby, ale nejspolehlivější a nejbezpečnější cestou je použití Anaconda Promptu (případně Miniconda Promptu). Ten má vždy správně nastavené systémové cesty k nástroji Conda bez rizika narušení ostatních programů v systému.
@@ -126,7 +128,7 @@ conda install -c conda-forge geopandas -y
 
 ## 3.3 Základní koncept knihovny GeoPandas
 
-**GeoPandas** je open-source knihovna, která rozšiřuje datové struktury **Pandas** o práci s prostorovými daty. Umožňuje tak kombinovat klasickou tabulkovou analýzu s prostorovými operacemi.
+GeoPandas je open-source knihovna, která rozšiřuje datové struktury Pandas o práci s prostorovými daty. Umožňuje tak kombinovat klasickou tabulkovou analýzu s prostorovými operacemi.
 
 ### Koncepční datový model
 GeoPandas definuje dvě základní třídy:
@@ -137,23 +139,21 @@ GeoPandas definuje dvě základní třídy:
 | **GeoDataFrame** | Tabulka atributů obsahující alespoň jeden sloupec typu **GeoSeries** | Vektorová vrstva (geometrie propojená s atributovou tabulkou) |
 
 ### Technologické zázemí
-Knihovna **GeoPandas** funguje jako sjednocující rozhraní pro specializované nízkoúrovňové knihovny:
+Knihovna GeoPandas funguje jako sjednocující rozhraní pro specializované nízkoúrovňové knihovny:
 
 * **Shapely:** Výpočetní geometrie (využívá knihovnu **GEOS**).
 * **PyProj:** Matematické transformace mezi souřadnicovými systémy (využívá knihovnu **PROJ**).
-* **Fiona/PyOGRIO:** Čtení a zápis vektorových dat (využívá knihovnu **GDAL**)
+* **Fiona/PyOGRIO:** Čtení a zápis vektorových dat (využívá knihovnu **GDAL**).
 
----
+## 3.4 První načtení a vizualizace prostorových dat
 
-## 4. První načtení a vizualizace prostorových dat
-
-### 1. Příprava prostředí:
+### Příprava prostředí:
 ```python
 # Import
 import geopandas as gpd
 ```
 
-### 2. Načtení dat:
+### Načtení dat:
 ```python
 # Načtení dat přímo z oficiálního zdroje Natural Earth
 url = "https://naturalearth.s3.amazonaws.com/110m_cultural/ne_110m_admin_0_countries.zip"
@@ -166,15 +166,15 @@ print(world.crs)
 world.head()
 ```
 
-### 3. Vizualizace:
+### Vizualizace:
 ```python
-# Vykreslení celého světa
+# Vykreslení mapy
 world.plot()
 
 # world[world.NAME == "Czechia"].plot()
 ```
 
-### 4. Výpočet rozlohy:
+### Výpočet rozlohy:
 ```python
 # Původní data Natural Earth jsou ve WGS84 (stupně).
 # Ve stupních nelze správně počítat plochu → potřebujeme metry.
@@ -198,11 +198,11 @@ print(f"Vypočítaná rozloha ČR: {plocha_km2:.2f} km²")
 
 ---
 
-# 5. Dokumentace v Jupyter Notebooku: Markdown
+# 4. Dokumentace v Jupyter Notebooku: Markdown
 
 Textové buňky v notebooku slouží k dokumentaci metodiky i interpretaci výsledků. Formátují se pomocí syntaxe **Markdown**.
 
-## 5.1 Základní syntaxe Markdown
+## 4.1 Základní syntaxe Markdown
 Markdown je navržen pro přehledné formátování textu pomocí několika základních znaků.
 
 ### Struktura a text
@@ -264,11 +264,11 @@ Markdown je navržen pro přehledné formátování textu pomocí několika zák
 
 ---
 
-# 6. Online a cloudová řešení
+# 5. Online a cloudová řešení
 
 Pokud není k dispozici dostatečně výkonný hardware nebo se nedaří lokální instalace, lze využít cloudová řešení. Ta umožňují vytvářet a spouštět notebooky přímo ve webovém prohlížeči bez jakékoliv instalace do počítače.
 
-## 6.1 Výhody a nevýhody cloudových řešení
+## 5.1 Výhody a nevýhody cloudových řešení
 
 Práce v cloudu přináší specifické benefity, ale i limity, které je nutné zohlednit.
 
@@ -279,7 +279,7 @@ Práce v cloudu přináší specifické benefity, ale i limity, které je nutné
 | **Dostupnost dat:** Přímý přístup k satelitním archivům bez nutnosti stahovat stovky GB na lokální disk. | **Dočasnost:** Bezplatná sezení jsou časově omezená; neuložená data mohou být po odpojení smazána. |
 | **Kolaborace:** Snadné sdílení notebooků podobně jako u dokumentů Google Docs. |  **Soukromí a bezpečnost:** Data jsou nahrávána na servery třetích stran (riziko u citlivých údajů). |
 
-## 6.2 Přehled vybraných platforem
+## 5.2 Přehled vybraných platforem
 
 Níže jsou uvedeny některé portály, které nabízejí Jupyter rozhraní.
 
