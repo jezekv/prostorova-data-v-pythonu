@@ -1,143 +1,209 @@
 # 1. Teoretický úvod a konfigurace prostředí
 
-Předtím, než začneme psát první řádky kódu, je nezbytné porozumět ekosystému nástrojů, které budeme používat. Ve Spatial Data Science nepoužíváme pouze jeden program, ale kombinaci programovacího jazyka, vývojového prostředí a správce balíčků.
+Před psaním prvních řádků kódu je dobré nejdříve porozumět ekosystému nástrojů, které budeme používat. Ve Spatial Data Science nepracujeme v jediném programu, ale kombinujeme tři základní vrstvy: **programovací jazyk**, **vývojové prostředí** a **správce balíčků a prostředí**.  
 
-## 1.1 Python
-
+## 1.1 Programovací jazyk: Python
 **Python** je interpretovaný, vysokoúrovňový programovací jazyk, který se stal de facto standardem pro Spatial Data Science.
 
 ### Proč je Python tak populární?
-* **Čitelnost:** Syntaxe Pythonu je blízká přirozené angličtině, což usnadňuje učení a údržbu kódu.
-* **Ekosystém knihoven:** Pro Python existují tisíce specializovaných knihoven. V GIS světě jsou to zejména `GeoPandas` (vektory), `Rasterio` (rastry), `PySAL` (prostorová statistika) a mnoho dalších...
-* **Komunita:** Díky obrovské základně uživatelů existuje řešení pro téměř každý problém na platformách jako Stack Overflow.
+* Syntaxe Pythonu je blízká přirozené angličtině.
+* Nemusíte řešit nízkoúrovňové technické detaily počítače (např. ruční správu paměti atd.).
+* Pro Python existují tisíce specializovaných knihoven. V našem kurzu využijeme například `GeoPandas` (vektory) a `xarray` s `rioxarray` (vícerozměrné rastry).
+* Díky obrovské základně uživatelů existuje řešení pro téměř každý problém na platformách jako např. Stack Overflow.
 
-## 1.2 Jupyter Notebook
+## 1.2 Vývojové prostředí: Jupyter Notebook a VS Code
+Vývojové prostředí tvoří kombinace interaktivního formátu zápisu **(Jupyter Notebook)** a editoru kódu **(VS Code)**.
 
-**Jupyter Notebook** (soubory s příponou `.ipynb`) není programovací jazyk, ale interaktivní prostředí, ve kterém Python běží. 
+### Jupyter Notebook (`.ipynb`)
+ 
+Není programovací jazyk, ale interaktivní dokument, ve kterém kód spouštíme po logických blocích (buňkách). 
 
-* **Princip buněk:** Notebook se skládá z buněk, které mohou obsahovat buď **spustitelný kód**, nebo **formátovaný text** (Markdown).
-* **Literate Programming:** Tento přístup umožňuje kombinovat kód, výpočty, vizualizace (mapy, grafy) a doprovodný text do jednoho dokumentu.
-* **Vztah s Pythonem:** Jupyter slouží jako pracovní rozhraní. Samotný kód vykonává **kernel** – spuštěná instance Pythonu, která vrací výstupy zpět do dokumentu.
-
-## 1.3 Lokální vývojové prostředí: VS Code a Anaconda
-
-Pro efektivní práci s Pythonem na vlastním počítači potřebujeme dvě věci: editor (kde kód píšeme) a distribuci Pythonu (která kód spouští).
+**Proč používat Jupyter Notebook?**
+* Skládá se z buněk, které mohou obsahovat buď **spustitelný kód**, nebo **formátovaný text** (Markdown).
+* Umožňuje kombinovat kód, výpočty, vizualizace (mapy, grafy) a doprovodný text do jednoho dokumentu.
+* Slouží jako pracovní rozhraní. Samotný kód vykonává **kernel:** samostatně běžící proces Pythonu, který drží načtená data v paměti RAM.
 
 ### Visual Studio Code (VS Code)
-**Odkaz ke stažení:** [VS Code](https://code.visualstudio.com/)  
-VS Code je v současnosti nejoblíbenější editor kódu.
 
-**Proč používat VS Code pro Jupyter?**
-1.  **Vše v jednom:** Máte v něm editor, terminál, prohlížeč proměnných i interaktivní okna pro mapy.
-2.  **Rozšíření:** Pomocí pluginů si VS Code přizpůsobíte (např. podpora pro GitHub nebo specifické GIS formáty).
-3.  **Zdarma:** Editor je zcela zdarma a postavený na open-source principech.
+VS Code je v současnosti asi nejoblíbenější editor kódu.  
+[Odkaz ke stažení VS Code](https://code.visualstudio.com/)  
 
-### Anaconda / Miniconda
-Namísto instalace Pythonu přímo do systému je výhodnější použít distribuci **Anaconda**, která spravuje izolovaná prostředí a minimalizuje konflikty mezi knihovnami.  
+**Proč používat VS Code?**
+*   Máte v něm editor, terminál, prohlížeč proměnných i interaktivní okna pro mapy.
+*   Pomocí pluginů si VS Code přizpůsobíte (např. podpora pro GitHub nebo specifické GIS formáty).
+*   Editor je zcela zdarma a postavený na open-source principech.
+
+## 1.3 Správce prostředí a balíčků: Anaconda (Conda)
+Namísto instalace Pythonu přímo do operačního systému je pro prostorová data výhodnější použít distribuci **Anaconda**, která spravuje izolovaná prostředí a minimalizuje konflikty mezi knihovnami.  
 [Odkaz ke stažení Anacondy](https://www.anaconda.com/download)  
 [Návod na instalaci Anacondy](https://www.anaconda.com/docs/getting-started/anaconda/install)
 
-* **Conda:** Funguje jako správce balíčků a prostředí (**Environment Manager**). Umožňuje vytvořit izolovaný prostor pro každý projekt. 
-* **Proč?** Knihovny jako `GeoPandas` mají složité závislosti na C++ knihovnách (GDAL, GEOS, PROJ). Conda tyto závislosti řeší automaticky při instalaci, což standardní nástroje `pip` často nezvládnou.
+* **Anaconda vs. Conda:** Anaconda je distribuce obsahující Python a stovky předinstalovaných knihoven, zatímco Conda je samotný nástroj (příkaz v systému), který instaluje balíčky a spravuje virtuální prostředí.
+* Conda jako správce prostředí umožňuje vytvořit oddělený prostor pro každý projekt s vlastní verzí Pythonu i balíčků. Změna knihovny v jednom projektu neovlivní ostatní projekty v počítači.
+* Knihovny jako `GeoPandas` mají složité závislosti na C++ knihovnách (GDAL, GEOS, PROJ). Conda tyto závislosti řeší automaticky při instalaci, zatímco standardní nástroj `pip` zde často selhává.
+
+> **Tip:** Pokud preferujete rychlou a úspornou instalaci bez stovek předem přibalených balíčků, skvělou alternativou k plné Anacondě je **Miniconda**. Ta nainstaluje čistý Python se správcem Conda a potřebné knihovny si přidáte na míru.
 
 ---
 
 # 2. Inicializace a konfigurace Jupyter Notebooku ve VS Code
 
-Tento manuál popisuje postup od prvního spuštění editoru po zprovoznění interaktivního prostředí Jupyter. Předpokladem je korektně nainstalovaný editor VS Code a distribuce Anaconda.
+Tento návod popisuje postup od prvního spuštění editoru po zprovoznění interaktivního prostředí Jupyter. Předpokladem je správně nainstalovaný editor VS Code a distribuce Anaconda.
 
 ## 2.1 Instalace nezbytných rozšíření
-Visual Studio Code vyžaduje pro interpretaci kódu Python a práci s notebooky instalaci specifických doplňků.
+VS Code vyžaduje pro interpretaci kódu Python a práci s notebooky instalaci dvou doplňků.
 
 1.  Spusťte **Visual Studio Code**.
 2.  Přejděte do sekce **Extensions** (ikona v levém panelu nebo zkratka `Ctrl+Shift+X`).
 3.  Vyhledejte a nainstalujte rozšíření **Python** (vydavatel Microsoft).
 4.  Vyhledejte a nainstalujte rozšíření **Jupyter** (vydavatel Microsoft).
 
-
-## 2.2 Vytvoření souboru Jupyter Notebook
-Soubory Jupyter Notebook využívají příponu `.ipynb` (IPython Notebook).
+## 2.2 Vytvoření prvního notebooku
+Soubory Jupyter Notebook využívají příponu `.ipynb`.
 
 1.  V horním menu zvolte **File** > **New File...**
 2.  Z nabídky typů souborů vyberte **Jupyter Notebook**.
-3.  Alternativně soubor uložte přes **File** > **Save As...** s příponou `.ipynb` (např. `cviceni_01.ipynb`).
+3.  Soubor uložte přes **File** > **Save As...** s příponou `.ipynb` (např. `cviceni_01.ipynb`).
 
-## 2.3 Propojení s interpretrem (Výběr Kernelu)
-Kernel (jádro) je výpočetní engine, který spouští kód v notebooku. Je nutné propojit dokument s konkrétní instalací Pythonu.
+## 2.3 Výběr Kernelu (propojení s Conda prostředím)
+Aby notebook věděl, v jaké instalaci Pythonu má příkazy provádět, musíme mu přiřadit **kernel** (výpočetní proces).
 
 1.  V pravém horním rohu editoru klikněte na tlačítko **Select Kernel**.
 2.  V rozbalovacím menu zvolte **Python Environments...**.
 3.  Vyberte instanci označenou jako `base (conda)` nebo verzi Pythonu odpovídající vaší instalaci Anacondy.
 4.  Úspěšné propojení je signalizováno zobrazením verze Pythonu v pravém horním rohu (např. *Python 3.10.x*).
 
-## 2.4 Verifikace funkčnosti prostředí
-Pro ověření integrity spojení mezi editorem a interpretrem proveďte test v první buňce:
+## 2.4 Ověření funkčnosti prostředí
+Pro kontrolu, zda notebook skutečně komunikuje se zvoleným Conda prostředím, otestujeme první buňku.
 
 1.  Ujistěte se, že je typ buňky nastaven na **Code**.
 2.  Vložte následující kód:
     ```python
     import sys
-    print(f"Interpret: {sys.executable}")
+    print(sys.executable)
     ```
 3.  Spusťte buňku pomocí ikony **Play** vlevo nebo klávesovou zkratkou **Shift + Enter**.
-4.  Korektní výstup bez chybových hlášení potvrzuje připravenost prostředí.
+4.  Výstup bez chybových hlášení s cestou do složky `anaconda3` potvrzuje připravenost prostředí.
 
 ## 2.5 Základní prvky rozhraní
 * **Code Cell:** Buňka pro zápis a spouštění algoritmu.
-* **Markdown Cell:** Buňka pro strukturovaný text, rovnice a dokumentaci.
+* **Markdown Cell:** Buňka pro strukturovaný text a dokumentaci.
 * **Variables:** Tlačítko v horní liště pro zobrazení aktivních proměnných v paměti RAM.
-* **Restart:** Restartování jádra (vymaže všechny proměnné z paměti, nutné při zacyklení nebo chybě importu).
+* **Restart:** Restartování kernelu (zastaví proces na pozadí a vymaže všechny proměnné z paměti RAM).
 
 ---
 
-# 3. Online a cloudová řešení (SaaS)
+# 3. Instalace balíčků a správa vývojového prostředí
 
-Pokud není k dispozici výkonný hardware nebo je instalace lokálního prostředí (Anaconda) problematická, lze využít cloudová řešení. Tato rozhraní umožňují spouštět Jupyter Notebooky přímo v prohlížeči.
+Python je navržen jako modulární jazyk. Ve své základní distribuci neobsahuje nástroje pro práci s prostorovými daty, proto je nutné využít externí knihovny. Tato kapitola se věnuje metodice instalace knihovny **GeoPandas**.
 
-## 3.1 Výhody a nevýhody cloudových řešení
+## 3.1 Problém více instalací Pythonu
+V operačním systému se běžně vyskytuje více různých instalací Pythonu současně (např. systémový Python, verze v rámci ArcGIS Pro či QGIS, distribuce Anaconda nebo různá virtuální prostředí).
 
-Práce v cloudu přináší specifické benefity, ale i limity, které je nutné při analýze prostorových dat zohlednit.
+### Rizika instalace přes Shell (`!`)
+Častým přístupem k instalaci bývá využití příkazu **Shell Escape `!`**, např. `!pip install`. Tento příkaz dočasně opustí prostředí Pythonu a zavolá systémovou příkazovou řádku. 
+* **V čem je problém:** Systémový terminál může používat úplně jinou instalaci Pythonu, než kterou využívá váš aktuálně otevřený notebook. 
+* **Následek:** Instalace v terminálu sice proběhne úspěšně, ale v notebooku se následně objeví chyba `ModuleNotFoundError`, protože knihovna byla nahrána "do jiného Pythonu".
 
-| Výhody | Nevýhody |
-| :--- | :--- |
-| **Nulová instalace:** Prostředí je předkonfigurované a připravené k okamžitému použití. | **Závislost na konektivitě:** Stabilní internetové připojení je nezbytnou podmínkou. |
-| **Výpočetní výkon:** Přístup k výkonným CPU a GPU zdarma nebo za poplatek. | **Omezení paměti:** U bezplatných verzí může dojít k ukončení procesu při zpracování velkých datasetů (RAM). |
-| **Dostupnost dat:** Přímý přístup k satelitním archivům bez nutnosti stahovat stovky GB dat. | **Soukromí a bezpečnost:** Data jsou nahrávána na servery třetích stran (riziko u citlivých údajů). |
-| **Kolaborace:** Snadné sdílení notebooků podobně jako u dokumentů Google Docs. | **Dočasnost:** Bezplatná sezení jsou časově omezená; neuložená data mohou být po odpojení smazána. |
+## 3.2 Metoda Conda
+Pro práci s komplexními balíčky je **Conda** doporučeným standardem, protože umí kromě samostatného Pythonu nainstalovat i potřebné nízkoúrovňové systémové knihovny.
+
+**Proč instalovat GeoPandas přes Condu?**
+Knihovna `GeoPandas` je závislá na nízkoúrovňových knihovnách psaných v C++ (zejména GDAL, GEOS a PROJ). Zatímco standardní `pip` vyžaduje jejich kompilaci v systému (což bývá zdrojem chyb), Conda je instaluje v již zkompilované a otestované podobě.
+
+### Instalace přes Anaconda Prompt
+Instalaci je sice možné provést více způsoby, ale nejspolehlivější a nejbezpečnější cestou je použití Anaconda Promptu (případně Miniconda Promptu). Ten má vždy správně nastavené systémové cesty k nástroji Conda bez rizika narušení ostatních programů v systému.
+
+1. V nabídce Start vyhledejte a spusťte **Anaconda Prompt** (nebo Miniconda Prompt).
+2. Zadejte příkaz a potvrďte klávesou Enter:
+   
+```bash
+conda install -c conda-forge geopandas -y
+```
+3. Počkejte na dokončení instalace a okno zavřete.
+
+> **Tip:** V cloudových službách, které nepoužívají Condu (např. Google Colab), instalujeme přes `pip` přímo v notebooku. Tyto systémy mají systémové závislosti většinou předpřipravené.
+
+## 3.3 Základní koncept knihovny GeoPandas
+
+**GeoPandas** je open-source knihovna, která rozšiřuje datové struktury **Pandas** o práci s prostorovými daty. Umožňuje tak kombinovat klasickou tabulkovou analýzu s prostorovými operacemi.
+
+### Koncepční datový model
+GeoPandas definuje dvě základní třídy:
+
+| Třída | Analogie | Ekvivalent v GIS |
+| :--- | :--- | :--- |
+| **GeoSeries** | Sloupec obsahující geometrie (vektor bodů, linií nebo polygonů) | Geometrický sloupec (prostorová složka bez atributů) |
+| **GeoDataFrame** | Tabulka atributů obsahující alespoň jeden sloupec typu **GeoSeries** | Vektorová vrstva (geometrie propojená s atributovou tabulkou) |
+
+### Technologické zázemí
+Knihovna **GeoPandas** funguje jako sjednocující rozhraní pro specializované nízkoúrovňové knihovny:
+
+* **Shapely:** Výpočetní geometrie (využívá knihovnu **GEOS**).
+* **PyProj:** Matematické transformace mezi souřadnicovými systémy (využívá knihovnu **PROJ**).
+* **Fiona/PyOGRIO:** Čtení a zápis vektorových dat (využívá knihovnu **GDAL**)
 
 ---
 
-## 3.2 Přehled vybraných platforem
+## 4. První načtení a vizualizace prostorových dat
 
-Níže jsou uvedeny některé portály, které nabízejí Jupyter rozhraní.
+### 1. Příprava prostředí:
+```python
+# Import
+import geopandas as gpd
+```
 
-### [Google Colab](https://colab.research.google.com/)
-Nejoblíbenější platforma pro obecný vývoj v Pythonu. 
-* **Hlavní výhoda:** Integrace s Google Drive a bezplatný přístup k výkonným GPU.
-* **Využití:** Škálovatelné analýzy, Deep Learning, rychlé testování kódu.
+### 2. Načtení dat:
+```python
+# Načtení dat přímo z oficiálního zdroje Natural Earth
+url = "https://naturalearth.s3.amazonaws.com/110m_cultural/ne_110m_admin_0_countries.zip"
+world = gpd.read_file(url)
 
-### [Jupyter.org (Try Jupyter)](https://jupyter.org/try)
-Oficiální demo rozhraní projektu Jupyter.
-* **Hlavní výhoda:** Okamžitý přístup k prostředí bez nutnosti registrace.
-* **Využití:** Krátkodobé testování syntaxe, výuka základů Pythonu. Data se po zavření prohlížeče neukládají.
+# Zobrazení souřadnicového systému
+print(world.crs)
 
-### [Copernicus Data Space Ecosystem](https://dataspace.copernicus.eu/analyse/jupyterlab)
-Evropský standard pro práci s daty ze satelitů **Sentinel**.
+# Zobrazení atributové tabulky (prvních 5 záznamů)
+world.head()
+```
 
-### [OpenSARLab (ASF)](https://opensarlab-docs.asf.alaska.edu/)
-Specializovaná laboratoř Alaska Satellite Facility.
+### 3. Vizualizace:
+```python
+# Vykreslení celého světa
+world.plot()
 
-### [ICOS Jupyter Hub](https://www.icos-cp.eu/data-services/tools/jupyter-notebook)
-Portál zaměřený na environmentální data o skleníkových plynech.
+# world[world.NAME == "Czechia"].plot()
+```
+
+### 4. Výpočet rozlohy:
+```python
+# Původní data Natural Earth jsou ve WGS84 (stupně).
+# Ve stupních nelze správně počítat plochu → potřebujeme metry.
+
+# 1. Vyfiltrování České republiky z načtené vrstvy světa
+czechia = world[world.NAME == "Czechia"].copy()
+
+# 2. Převedení do souřadnicového systému S-JTSK
+czechia_projected = czechia.to_crs(epsg=5514)
+
+# 3. Výpočet plochy
+# .area vrací výsledek v jednotkách systému (zde m2)
+# Pro kilometry čtvereční musíme dělit 1 000 000
+plocha_m2 = czechia_projected.area.item()
+plocha_km2 = plocha_m2 / 1_000_000
+
+# 4. Výpis výsledku
+print(f"Aktuální souřadnicový systém: {czechia_projected.crs.name}")
+print(f"Vypočítaná rozloha ČR: {plocha_km2:.2f} km²")
+```
 
 ---
 
-# 4. Dokumentace v Jupyter Notebooku: Markdown
+# 5. Dokumentace v Jupyter Notebooku: Markdown
 
-V prostředí Jupyter Notebook není text pouze doprovodným prvkem, ale integrální součástí analýzy. K formátování textových buněk se primárně používá jazyk **Markdown**, doplněný o prvky **HTML** a matematickou notaci **LaTeX**.
+Textové buňky v notebooku slouží k dokumentaci metodiky i interpretaci výsledků. Formátují se pomocí syntaxe **Markdown**.
 
-## 4.1 Základní syntaxe Markdown
-Markdown je navržen tak, aby byl snadno čitelný i v neformátované (raw) podobě.
+## 5.1 Základní syntaxe Markdown
+Markdown je navržen pro přehledné formátování textu pomocí několika základních znaků.
 
 ### Struktura a text
 
@@ -162,13 +228,12 @@ Markdown je navržen tak, aby byl snadno čitelný i v neformátované (raw) pod
 * **Horizontální čára:** Použijte `---` na samostatném řádku.      
 ---
 
-* **Emojis:** V mnoha editorech fungují kódy jako `:rocket` 🚀 nebo `:smile` 😄.
-
-* **Zalomení řádku:** Pokud chcete začít na novém řádku bez vytvoření nového odstavce, vložte na konec řádku **dvě mezery**.
+* **Nový řádek vs. odstavec:** Pro nový odstavec nechte mezi řádky **jeden prázdný řádek**. Pro pouhé zalomení řádku bez mezery vložte na konec předchozího řádku **dvě mezery**.
 
 ### Odkazy a obrázky
 * **Odkaz:** `[Název odkazu](URL_adresa)`  
-* **Obrázek:** `![Popis obrázku](URL_adresa_k_obrazku)`
+* **Obrázek:** `![Popis obrázku](URL_adresa_k_obrazku)`  
+  [Takhle vypadá odkaz](https://www.czu.cz/cs)
 
 ### Tabulky
 
@@ -182,7 +247,7 @@ Markdown je navržen tak, aby byl snadno čitelný i v neformátované (raw) pod
 | Jan | Novák | Jilemnice |
 | Jana | Nováková | Stará Paka |
 
-### Práce s kódem a technický zápis
+### Práce s kódem
 
 * **Inline kód:** Použijte zpětné apostrofy `` `Inline` ``.  
   Například název funkce `gpd.read_file()`.
@@ -197,181 +262,42 @@ Markdown je navržen tak, aby byl snadno čitelný i v neformátované (raw) pod
     print("Hello World")
     ```
 
-## 4.2 Matematická notace (LaTeX)
-Pro zápis matematických vzorců využívá Jupyter Notebook LaTeX. Abychom pochopili, jak rovnici zapsat, podívejte se na srovnání kódu a výsledku:
+---
 
-| Zdrojový kód (Markdown) | Výsledek (Render) |
+# 6. Online a cloudová řešení
+
+Pokud není k dispozici dostatečně výkonný hardware nebo se nedaří lokální instalace, lze využít cloudová řešení. Ta umožňují vytvářet a spouštět notebooky přímo ve webovém prohlížeči bez jakékoliv instalace do počítače.
+
+## 6.1 Výhody a nevýhody cloudových řešení
+
+Práce v cloudu přináší specifické benefity, ale i limity, které je nutné zohlednit.
+
+| Výhody | Nevýhody |
 | :--- | :--- |
-| `$\text{NDVI} = \frac{\text{NIR} - \text{RED}}{\text{NIR} + \text{RED}}$` | $\text{NDVI} = \frac{\text{NIR} - \text{RED}}{\text{NIR} + \text{RED}}$ |
-| `$d = \sqrt{x^2 + y^2}$` | $d = \sqrt{x^2 + y^2}$ |
+| **Nulová instalace:** Prostředí je předkonfigurované a připravené k okamžitému použití. | **Závislost na internetu:** Bez stabilního připojení nelze psát ani spouštět kód. |
+| **Výpočetní výkon:** Přístup k výkonným CPU a GPU, a to i zdarma. | **Omezení operační paměti:** U bezplatných verzí může dojít k ukončení procesu při zpracování velkých datasetů. |
+| **Dostupnost dat:** Přímý přístup k satelitním archivům bez nutnosti stahovat stovky GB na lokální disk. | **Dočasnost:** Bezplatná sezení jsou časově omezená; neuložená data mohou být po odpojení smazána. |
+| **Kolaborace:** Snadné sdílení notebooků podobně jako u dokumentů Google Docs. |  **Soukromí a bezpečnost:** Data jsou nahrávána na servery třetích stran (riziko u citlivých údajů). |
 
----
+## 6.2 Přehled vybraných platforem
 
-## 4.3 Pokročilé formátování: HTML
+Níže jsou uvedeny některé portály, které nabízejí Jupyter rozhraní.
 
-Markdown je pro běžné psaní skvělý, ale má své limity (např. neumí měnit barvu textu nebo zarovnání). V Jupyteru můžete použít standardní **HTML tagy**.
+### [Google Colab](https://colab.research.google.com/)
+Nejrozšířenější online platforma pro obecný vývoj v Pythonu. 
+* **Hlavní výhoda:** Integrace s Google Drive a bezplatný přístup k výkonným GPU.
+* **Využití:** Rychlé prototypování, zpracování větších objemů dat a strojové učení.
 
-### Vizuální úpravy textu a prvků
+### [Jupyter.org (Try Jupyter)](https://jupyter.org/try)
+Oficiální demo rozhraní projektu Jupyter.
+* **Hlavní výhoda:** Okamžitý přístup k prostředí bez nutnosti registrace.
+* **Využití:** Krátkodobé testování syntaxe, výuka základů Pythonu. Data se po zavření prohlížeče neukládají.
 
-* **Změna barvy a velikosti:** Pomocí tagu `<span>` a parametru `style`:
-    ```html
-    <span style="color:red; font-size:30px;">Tento text je velký a červený.</span>
-    ```
+### [Copernicus Data Space Ecosystem](https://dataspace.copernicus.eu/analyse/jupyterlab)
+Evropská platforma pro přímou práci s archivy satelitů Sentinel.
 
-* **Zarovnání textu:** Markdown standardně zarovnává vše doleva. Pro středové zarovnání použijte:
-    ```html
-    <p style="text-align: center;">Tento text je vycentrovaný.</p>
-    ```
+### [OpenScienceLab (ASF)](https://opensarlab-docs.asf.alaska.edu/)
+Specializovaná laboratoř Alaska Satellite Facility pro zpracování radarových dat.
 
-* **Zvýraznění textu:** Když potřebujete na něco upozornit přímo uvnitř odstavce, tag `<mark>` funguje jako zvýrazňovač:
-    ```html
-    Tato část analýzy je <mark style="background-color: #ffff00">klíčová pro pochopení</mark> HTML
-    ```
-
-* **Barevné informační boxy:** K vytváření výrazných bloků se používá univerzální kontejner `<div>`:
-    ```html
-    <div style="background-color: #e3f2fd; border-left: 6px solid #2196f3; padding: 15px;"> Tady je modrý blok. </div>
-    ```
- 
-* **Zalomení řádku:** V HTML se k odřádkování používá tag `<br>` (z anglického break):
-    ```html
-    První řádek textu. <br> Druhý řádek textu.
-    ```
-    > V čistém Markdownu dosáhnete stejného výsledku vložením **dvou mezer** na konec řádku.
-    
-* **Detaily a shrnutí**: Pro dlouhé analýzy nebo technické detaily, které by neměly hned zahltit čtenáře, je skvělý tag `<details>`. Funguje jako "rozbalovátko":
-    ```html
-    <details>
-      <summary><b>Klikněte pro zobrazení zdrojového kódu nebo metodiky</b></summary>
-      Zde může být schovaný dlouhý text, tabulka nebo další vysvětlení.
-    </details>
-    ```
-    
----
-
-# 5. Instalace balíčků a správa vývojového prostředí
-
-Python je navržen jako modulární jazyk. Ve své základní distribuci neobsahuje nástroje pro pokročilou prostorovou analýzu, proto je nutné využít externí knihovny. Tato kapitola se věnuje metodice instalace knihovny **GeoPandas**.
-
-## 5.1 Problém více interpretů
-
-V operačním systému se běžně vyskytuje více verzí Pythonu současně (např. systémový Python, verze v rámci ArcGIS, distribuce Anaconda nebo různá virtuální prostředí).
-
-### Rizika instalace přes Shell (`!`)
-Častým přístupem k instalaci bývá využití příkazu **Shell Escape `!` **, např. `!pip install`. Tento příkaz dočasně opustí prostředí Pythonu a zavolá systémovou příkazovou řádku. 
-* **V čem je problém:** Systémový terminál může mířit na úplně jiný **interpret** (jinou instalaci Pythonu), než který využívá váš aktuálně otevřený notebook. 
-* **Následek:** Instalace v terminálu sice proběhne úspěšně, ale v notebooku se následně objeví chyba `ModuleNotFoundError`, protože knihovna byla nahrána "do jiného Pythonu".
-
-### Proč v Jupyteru volit Line Magic (`%`)
-Abychom tomuto chaosu předešli, používáme v buňkách notebooku tzv. **Line Magic** `%`. Na rozdíl od vykřičníku je příkaz `%pip install` interní funkcí jádra IPython, která je implementována tak, aby **automaticky identifikovala cestu k aktuálně spuštěnému kernelu**.
-
----
-
-## 5.2 Metoda Conda (Preferovaný Environment Manager)
-
-Pro práci s komplexními balíčky je **Conda** doporučeným standardem. Na rozdíl od běžných instalátorů funguje jako robustní **správce prostředí (Environment Manager)**.
-
-**Proč volit Condu pro GeoPandas?**
-Knihovna `GeoPandas` je závislá na nízkoúrovňových knihovnách psaných v C++ (zejména **GDAL**, **GEOS** a **PROJ**). Zatímco standardní `pip` vyžaduje jejich kompilaci v systému (což bývá zdrojem chyb), Conda je instaluje v již zkompilované a otestované binární podobě.
-
-Vložte do buňky a spusťte:
-
-```python
-%conda install -c conda-forge geopandas
-```
-
-## 5.3 Alternativní metoda: Pip (Cloudová rozhraní)
-
-V prostředích, která nativně nepodporují správu přes **Conda** (např. Google Colab), využíváme standardní nástroj `pip`.
-
-Vložte do buňky a spusťte:
-```python
-%pip install geopandas 
-```
-
----
-
-## 5.4 Základní koncept knihovny GeoPandas
-
-**GeoPandas** je open-source knihovna pro jazyk Python, která rozšiřuje datové struktury `Pandas` o podporu vektorových geoprostorových objektů. Umožňuje tak kombinovat klasickou tabulkovou analýzu s prostorovými operacemi.
-
-### Koncepční datový model
-GeoPandas definuje dvě základní třídy:
-
-| Třída | Analogie | Význam v GIS |
-| :--- | :--- | :--- |
-| **GeoSeries** | Sloupec | Seznam prostorových objektů (body, linie, polygony) |
-| **GeoDataFrame** | Tabulka | Atributová tabulka, kde má každý řádek svou geometrii |
-
-
-### Technologický stack
-Knihovna **Geopandas** funguje jako integrační rozhraní pro specializované nízkoúrovňové knihovny:
-
-* **Shapely:** Výpočetní geometrie (využívá knihovnu **GEOS**).
-* **PyProj:** Matematické transformace mezi souřadnicovými systémy (využívá knihovnu **PROJ**).
-* **Fiona/PyOGRIO:** Čtení a zápis vektorových dat (využívá knihovnu **GDAL**)
-
----
-
-## 5.5 První načtení a vizualizace prostorových dat
-
-### 1. Příprava prostředí:
-```python
-# 1. Instalace nezbytných balíčků (pokud nejsou přítomny)
-%conda install -c conda-forge geopandas
-
-import geopandas as gpd
-```
-
-### 2. Načtení dat:
-```python
-# Načtení dat přímo z oficiálního zdroje Natural Earth
-url = "https://naturalearth.s3.amazonaws.com/110m_cultural/ne_110m_admin_0_countries.zip"
-world = gpd.read_file(url)
-
-# Zobrazení souřadnicového systému
-print(world.crs)
-
-# Zobrazení atributové tabulky (prvních 5 záznamů)
-world.head()
-```
-
-### 3. Globální vizualizace:
-```python
-# Vykreslení celého světa
-world.plot()
-
-# world[world.NAME == "Czechia"].plot()
-```
-
-### 4. Výpočet centroidu:
-```python
-# 1. Vyfiltrujeme jen Česko
-czechia = world[world.NAME == "Czechia"].copy()
-
-# 2. Vytvoříme nový sloupec s centroidem
-# GeoPandas automaticky spočítá střed z polygonu hranic
-czechia['centroid_bod'] = czechia.centroid
-
-# Podívej se na tabulku - uvidíš dva sloupce s geometrií
-czechia[['NAME', 'geometry', 'centroid_bod']].head()
-```
-
-### 5. Výpočet rozlohy:
-```python
-# Původní data Natural Earth jsou ve WGS84 (stupně).
-# Ve stupních nelze správně počítat plochu → potřebujeme metry.
-
-# 1. Převedení do souřadnicového systému S-JTSK
-czechia_projected = czechia.to_crs(epsg=5514)
-
-# 2. Výpočet plochy
-# .area vrací výsledek v jednotkách systému (zde m2)
-# Pro kilometry čtvereční musíme dělit 1 000 000
-plocha_m2 = czechia_projected.area.item()
-plocha_km2 = plocha_m2 / 1_000_000
-
-# 3. Výpis výsledku
-print(f"Aktuální souřadnicový systém: {czechia_projected.crs.name}")
-print(f"Vypočítaná rozloha ČR: {plocha_km2:.2f} km²")
-```
+### [ICOS Jupyter Hub](https://www.icos-cp.eu/data-services/tools/jupyter-notebook)
+Portál zaměřený na environmentální data o skleníkových plynech.
