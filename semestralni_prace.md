@@ -27,3 +27,4 @@ Cílem je v cca 20 minutách představit vybranou knihovnu kolegům, vysvětlit 
 | 15 | **geemap** |
 | 16 | **Pydeck** |
 | 17 | **Lonboard** |
+| 18 | **Laspy** |
