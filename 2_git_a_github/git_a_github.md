@@ -1,128 +1,162 @@
 # 2. Verzování kódu a kolaborativní vývoj: Git a GitHub
 
-V této lekci se zaměříme na správu **zdrojového kódu**. Ve Spatial Data Science je standardem pro správu verzí systém **Git**. Jeho zvládnutí je zásadní pro udržení pořádku v projektu, hladkou spolupráci s kolegy a jistotu, že vaše práce zůstane v bezpečí, dohledatelná a reprodukovatelná.
+Tato lekce se věnuje verzování kódu pomocí nástroje **Git**. Zaměříme se na organizaci projektu, týmovou spolupráci a zajištění plné reprodukovatelnosti prostorových analýz.
 
-# Teoretický úvod do Version Control Systems (VCS)
+# Proč vůbec verzovat kód?
 
-Systémy pro správu verzí (VCS) sledují historii změn v souborech. Na rozdíl od běžného zálohování (např. Google Drive), které obvykle synchronizuje pouze aktuální stav, VCS uchovává kompletní historii vývoje projektu.
+Při práci na projektu se kód neustále mění. Něco opravíme, něco přidáme, něco rozbijeme a později potřebujeme zjistit, **co se změnilo, proč se to změnilo a ke které verzi se můžeme vrátit**.
 
-## 1.1 Motivace: Problém reprodukovatelnosti a správy verzí
-Tradiční přístup k verzování pomocí přejmenovávání souborů (`analyza_final.ipynb`, `analyza_v2.ipynb`, `analyza_oprava.ipynb`) je nepraktický z několika důvodů:
+Bez verzovacího systému často vzniká něco jako:
 
-* **Redundance:** Uchovávání mnoha kopií téměř identických souborů.
-* **Absence kontextu:** Z názvu souboru není zřejmé, *co* přesně se změnilo a *proč*.
-* **Kolize při spolupráci:** Pokud dva analytici upraví stejný soubor, dochází k přepsání dat nebo nutnosti manuálního slučování.
+`analyza_final.ipynb` → `analyza_v2.ipynb` → `analyza_oprava.ipynb` → `analyza_opravena_final.ipynb`
 
-Git tyto problémy řeší.
+To je nepraktické hlavně proto, že názvy souborů nepopisují historii změn a při spolupráci snadno vznikají kolize.
 
-## 1.2 Rozdíl mezi Git a GitHub
-Je nutné rozlišovat mezi nástrojem a platformou:
-
-| Nástroj | Definice | Funkce |
-| :--- | :--- | :--- |
-| **Git** | Distribuovaný systém správy verzí (software). | Běží lokálně na vašem počítači. Sleduje změny, vytváří historii, umožňuje větvení. Funguje offline. |
-| **GitHub** | Cloudová hostingová služba pro repozitáře Git. | Slouží jako centrální online úložiště, nástroj pro Code Review a projektový management. |
-
-> *Git funguje **zcela bez GitHubu**. GitHub je pouze vzdálený server.*
-
-## 1.3 Tři oblasti Gitu
-Abyste pochopili, jak Git funguje, musíte rozumět jeho workflow. Každý soubor se nachází v jedné ze tří oblastí:
-
-1.  **Working Directory:** Aktuální soubory na vašem disku, které právě editujete.
-2.  **Staging Area (Index):** „Přípravna“. Zde si skládáte balíček změn, které chcete uložit. Umožňuje vám to vybrat jen konkrétní úpravy.
-3.  **Local Repository:** Adresář projektu, kde jsou změny trvale uloženy v historii (ve skryté složce `.git`).
-
-## 1.4 Commit: Safe Point projektu
-
-**Commit** je základní stavební jednotkou historie Gitu. Představuje trvalý a neměnný bod v čase, který zachycuje přesný stav projektu. Na rozdíl od běžných záloh Git nepracuje s kopírováním celých adresářů – **spravuje logickou historii vývoje, nikoliv fyzické kopie souborů.**
-
-Klíčové vlastnosti commitu:
-
-* **Commit Message:** Textový komentář, který dokumentuje, *proč* změna vznikla. Bez srozumitelného popisu je historie po čase nečitelná.
-* **Autorství a čas:** Git ke každému zápisu automaticky přikládá jméno autora a časové razítko. Vždy je tedy dohledatelné, kdo a kdy konkrétní úpravu provedl.
-* **Unikátní ID (Hash):** Každý commit má svůj specifický kód. Ten slouží jako jednoznačná adresa, díky které se k dané verzi můžete kdykoliv v budoucnu vrátit.
-* **Návaznost:** Commity na sebe chronologicky navazují, čímž vzniká souvislý řetězec vývoje.
-
-## 1.5 Branches (Větve)
-Větvení (Branching) umožňuje paralelní vývoj. Díky němu můžeme izolovat práci na různých částech projektu, aniž by došlo k ohrožení stabilní verze kódu.
-
-* **Main Branch:** Stabilní produkční verze projektu (zpravidla nazývaná `main` nebo `master`)
-* **Feature Branch:** Větev vytvořená pro vývoj konkrétní funkcionality. Změny v této větvi neovlivňují hlavní kód, dokud nejsou explicitně sloučeny.
-* **Merge:** Proces sloučení jedné větve do druhé. Git se pokouší automaticky sjednotit paralelní linie vývoje.
-* **Conflict:** Stav, kdy Git identifikuje protichůdné úpravy na stejném řádku kódu, které nedokáže automaticky rozhodnout. Vyžaduje manuální zásah uživatele, který musí určit, která verze má být zachována.
-
-## 1.6 Spolupráce a Remote Repository
-
-Zatímco Git spravuje historii na vašem lokálním disku, pro spolupráci v týmu je nezbytný **Remote Repository**.
-
-* **Remote Repository:** Kopie vašeho projektu umístěná na serveru. Slouží jako centrální uzel, se kterým všichni členové týmu synchronizují svou práci.
-* **Push:** Odeslání vašich lokálních commitů na vzdálený server, aby byly dostupné ostatním.
-* **Pull:** Stažení nejnovějších změn od kolegů ze serveru do vašeho počítače a jejich automatická integrace do vaší lokální historie.
-
-**V následující kapitole se podíváme na platformu GitHub, která slouží jako centrální úložiště pro Remote repository.**
+**Git řeší tento problém tím, že udržuje historii vývoje projektu.**
 
 ---
 
-# 2. GitHub jako webová platforma pro řízení projektů
+## 1.1 Git a GitHub
 
-GitHub rozšiřuje funkčnost Gitu o nástroje pro týmovou spolupráci a řízení kvality kódu.
+### Git
+**Git je systém pro správu verzí.** Sleduje změny v projektu a ukládá jejich historii. Historie je uložena lokálně, takže Git může fungovat i bez internetu.
 
-## 2.1 Issues
-Sekce **Issues** slouží jako integrovaný systém pro hlášení chyb a plánování vývoje. V projektech se využívá pro:
-* **Bug Tracking:** Hlášení chyb v algoritmech.
-* **Feature Requests:** Návrhy na vylepšení.
+### GitHub
+**GitHub je online platforma pro Git repozitáře a týmovou spolupráci.** Umožňuje sdílet repozitář a používá se například pro Pull Requests, Code Review a Issues.
+
+> **Git ≠ GitHub.** Git je nástroj. GitHub je jedna z platforem, na kterých můžeme Git repozitář hostovat.
+
+---
+
+## 1.2 Jak Git funguje: jeden mentální model
+
+Nejdůležitější je pochopit tok změn:
+
+```text
+upravuji soubory
+      ↓
+Working Directory
+      ↓  git add
+Staging Area
+      ↓  git commit
+Local Repository
+      ↓  git push
+Remote Repository (např. GitHub)
+```
+
+A změny od ostatních se dostávají k nám:
+
+```text
+Remote Repository
+      ↓  git pull
+Local Repository
+      ↓
+Working Directory
+```
+
+- **Working Directory:** Soubory projektu, které právě upravujeme.
+- **Staging Area:** Přípravná zóna, do které vybereme změny pro nejbližší commit.
+- **Local Repository:** Lokální historie projektu uložená v repozitáři, jehož součástí je složka `.git`.
+- **Remote Repository:** Vzdálený repozitář, typicky uložený na GitHubu, se kterým svou lokální historii sdílíme.
+
+---
+
+## 1.3 Commit: Safe Point projektu
+
+**Commit je záznam konkrétního stavu projektu v určitém okamžiku.** Můžeme si ho představit jako bezpečný bod, ke kterému se historie projektu vztahuje.
+
+```text
+●──●──●──●──●
+   ↑     ↑
+ starší  novější
+ verze   verze
+```
+
+Commit obsahuje zejména:
+
+- popis změny (**commit message**),
+- autora a čas,
+- unikátní ID,
+- návaznost na předchozí historii.
+
+Důležitá je hlavně srozumitelná commit message: z historie má být později poznat, co se stalo.
+
+---
+
+## 1.4 Branches: práce na oddělené větvi
+
+Když chceme vytvořit novou funkci nebo opravit chybu, nechceme vždy zasahovat přímo do hlavní větve `main`.
+
+```text
+main       ●──●──●────────●
+                 \
+feature           ●──●──●
+```
+
+**Feature branch** je samostatná větev pro konkrétní úkol. Po dokončení ji můžeme pomocí **merge** začlenit zpět do `main`.
+
+Pokud Git nedokáže automaticky spojit protichůdné změny, vzniká **merge conflict**. V takovém případě musí člověk rozhodnout, která varianta má zůstat.
+
+---
+
+## 1.5 GitHub jako platforma pro spolupráci
+
+GitHub není jen online záloha projektu. Kromě hostování remote repozitáře poskytuje nástroje pro týmovou práci.
+
+### Pull Request
+
+**Pull Request (PR)** je návrh na začlenění změn z jedné větve do druhé. Ostatní mohou změny před sloučením prohlédnout, komentovat a zkontrolovat.
+
+### Issues
+
+**Issues** slouží k evidenci úkolů, chyb a návrhů.
+
 > Issues podporují Markdown, lze vkládat kusy kódu, chybové hlášky i obrázky.
 
-## 2.2 Pull Requests a Code Review
-**Pull Request** je proces, kterým vývojář žádá o sloučení své větve (Feature Branch) do hlavní větve (Main Branch) před samotnou aplikací **Merge**.
-Je to ideální moment pro **Code Review** – kolegové mohou kód zkontrolovat, okomentovat a navrhnout úpravy předtím, než se stane součástí **Main Branch**. 
+---
+
+## 1.6 Co do Gitu nepatří
+
+Git je určen především pro historii projektu, ne jako obecné úložiště všech souborů.
+
+Typicky nechceme verzovat:
+
+**Velká data** – například `.tiff`, `.gpkg` nebo `.shp`. U binárních datasetů Git nedokáže identifikovat změny a při každém commitu ukládá kompletní soubor. To vede k neúměrnému nárůstu velikosti repozitáře; data je vhodnější držet mimo Git.
+
+**Hesla, API klíče a tokeny** – citlivé údaje nikdy nevkládejte do repozitáře. Pokud je jednou commitnete a pushnete, jejich následné smazání ze souboru je neodstraní z historie.
+
+**Virtuální prostředí a dočasné soubory** – například `.venv`, `__pycache__` nebo `.ipynb_checkpoints`.
+
+### `.gitignore`
+
+Soubor **`.gitignore`** říká Gitu, které soubory a složky nemá sledovat.
+
+Pomáhá tak udržet repozitář čistý a zabránit náhodnému přidání balastu nebo citlivých souborů.
 
 ---
 
-# 3 Co do Gitu nepatří
-
-Git byl navržen primárně pro správu **zdrojového kódu** (textových souborů), nikoliv jako obecné cloudové úložiště
-
-## 3.1 Proč jsou některé soubory pro Git nevhodné?
-
-* **Velké datasety:** Git je primárně optimalizován pro textové soubory, kde ukládá pouze řádkové rozdíly. U **binárních datasetů** (např. `.gpkg`, `.tiff` nebo `.shp`) však nedokáže identifikovat změny a při každém commitu ukládá kompletní soubor. To vede k neúměrnému nárůstu velikosti repozitáře.
-    * *Správný postup:* Data ukládejte na externí úložiště (cloud, síťový disk) a v Gitu nechte pouze skript, který je zpracovává.
-
-* **API klíče, hesla a tokeny:** Jakmile commitnete heslo do Gitu a odešlete (push) ho na GitHub, je kompromitované. I když ho v příštím kroku smažete, **zůstává v historii**.
-
-* **Virtuální prostředí (`.venv`, `env`):** Tato složka obsahuje tisíce souborů specifických pro váš operační systém a konkrétní instalaci Pythonu. Kolegovi na jiném počítači by vaše prostředí nefungovalo.
-    * *Správný postup:* Verzujte pouze konfigurační soubor, ze kterého si ostatní prostředí sami nastaví.
-
-* **Dočasný balast a Cache:** Složky jako `__pycache__`, `.ipynb_checkpoints` nebo systémové soubory `.DS_Store` se mění při každém spuštění kódu. V historii verzí vytvářejí jen "šum", který zbytečně ztěžuje čtení skutečných změn v logice programu.
-
-## 3.2 Soubor `.gitignore`: Automatický filtr
-
-Abychom nemuseli pokaždé ručně hlídat, co do Gitu přidáváme, používáme konfigurační soubor **`.gitignore`**. Je to prostý textový dokument v kořenovém adresáři projektu, který Gitu říká: *"Tyto soubory a složky úplně ignoruj a nikdy je nenabízej k uložení."*
-
----
-
-# 4. Instalace a konfigurace prostředí
+# 2. Instalace a konfigurace prostředí
 
 Pro integraci Gitu je nutná instalace do operačního systému.
 
-## 4.1 Instalace Git
+## 2.1 Instalace Git
 [Oficiální stránka ke stažení (git-scm.com)](https://git-scm.com/downloads)
 
 Stáhněte instalátor a ponechte výchozí nastavení. Následně v terminálu spusťte `git --version`.
 
-## 4.2 Globální konfigurace (Identita)
+## 2.2 Globální konfigurace (Identita)
 Aby mohl Git přiřadit změny konkrétnímu autorovi, je nutné nastavit jméno a e-mail. Tyto údaje se propisují do historie commitů.
 
-Otevřete Příkazový řádek (`Win` &rarr; `cmd` &rarr; `Enter`) a zadejte:
+Otevřete příkazový řádek (`Win` &rarr; `cmd` &rarr; `Enter`) a zadejte:
 
 ```bash
 git config --global user.name "Vaše jméno"
-git config --global user.email " Váš email"
+git config --global user.email "Váš email"
 ```
 
-## 4.3 GitHub CLI: Instalace a autorizace
+## 2.3 GitHub CLI: Instalace a autorizace
 
-Tradiční Git neví, že existuje nějaký GitHub, dokud mu ručně nepředáte přesnou adresu. Abychom se vyhnuli chybovým hláškám a složitému nastavování, použijeme oficiální nástroj **GitHub CLI** (příkaz `gh`). 
+Git neví, že existuje nějaký GitHub, dokud mu ručně nepředáte přesnou adresu. Použijeme k tomu oficiální nástroj **GitHub CLI** (příkaz `gh`). 
 
 ### Instalace nástroje přes příkazovou řádku
 Nejrychlejší způsob, jak GitHub CLI nainstalovat bez hledání instalátorů na webu, je použít správce balíčků přímo v terminálu:
@@ -154,7 +188,7 @@ Průvodce v terminálu projděte následovně (šipkami vybíráte, Enterem potv
 5. Propojení s prohlížečem:  
    - Terminál vám ukáže osmimístný kód (např. BD21-4A55).  
    - Stiskněte Enter. Automaticky se otevře prohlížeč.  
-   - Vložte zobrazený kód a potvrďte tlačítkem Authorize github.  
+   - Vložte zobrazený kód a potvrďte tlačítkem "Authorize github".  
 
 ### Ověření stavu
 
@@ -164,9 +198,9 @@ gh auth status
 Měli byste vidět potvrzení: `Logged in to github.com account <vaše-jméno>`.
 
 ---
-# 5. Git v příkazové řádce: Praktické cvičení
+# 3. Git v příkazové řádce: Praktické cvičení
 
-V této části si vyzkoušíte základní workflow přímo v terminálu. Jednotlivé kroky naleznete v samostatném souboru `cviceni_git.md`
+V této části si vyzkoušíte základní workflow přímo v terminálu. Jednotlivé kroky naleznete v samostatném souboru `cviceni_git.md`.
 
 ## Přehled základních příkazů
 
@@ -174,7 +208,7 @@ V této části si vyzkoušíte základní workflow přímo v terminálu. Jednot
 | :--- | :--- | :--- |
 | **Initialize** | `git init` | Inicializuje nový lokální repozitář v aktuálním adresáři. |
 | **Status** | `git status` | Zobrazí stav souborů (změněné, připravené k zápisu, nesledované). |
-| **Diff** | `git diff` | Zobrazí konkrétní změny v řádcích u souborů |
+| **Diff** | `git diff` | Zobrazí konkrétní změny v řádcích u souborů. |
 | **Stage (+)** | `git add <soubor>` | Přesune konkrétní změny do oblasti připravených změn (**Staging Area**). |
 | **Commit** | `git commit -m "zpráva"` | Vytvoří trvalý záznam v historii. |
 | **Log** | `git log` | Zobrazí historii provedených commitů a jejich ID. |
@@ -187,28 +221,28 @@ V této části si vyzkoušíte základní workflow přímo v terminálu. Jednot
 
 ---
 
-# 6. Workflow ve VS Code
+# 4. Workflow ve VS Code
 
 Visual Studio Code má integrovanou podporu pro Git (záložka **Source Control**). Níže je popsán standardní postup.
 
-## 6.1 Inicializace repozitáře
+## 4.1 Inicializace repozitáře
 1.  Otevřete složku projektu ve VS Code.
 2.  Přejděte na panel **Source Control** (ikona větvení vlevo, zkratka `Ctrl+Shift+G`).
 3.  Zvolte **Initialize Repository**.
 
-## 6.2 Staging a Commit (Uložení změn)
+## 4.2 Staging a Commit (Uložení změn)
 Git rozlišuje mezi "pracovním adresářem" a "historií". Uložení je dvoufázový proces:
 
 1.  **Stage Changes (Příprava):** Vyberte soubory, které chcete zahrnout do commitu, kliknutím na ikonu `+` u názvu souboru.
 2.  **Commit (Potvrzení):** Do pole *Message* zadejte popis změny. Potvrďte tlačítkem **Commit** (ikona ✔️).
 
-## 6.3 Práce s větvemi (Branching)
+## 4.3 Práce s větvemi (Branching)
 1.  V dolní liště VS Code klikněte na název aktuální větve (obvykle `main` nebo `master`).
 2.  Zvolte **+ Create new branch...**.
 3.  Zadejte název.
 4.  VS Code vás automaticky přepne do nové větve.
 
-## 6.4 Slučování větví (Merge)
+## 4.4 Slučování větví (Merge)
 Když je práce ve vývojové větvi hotová, je třeba ji včlenit do hlavní linie projektu:
 
 1. **Přepnutí:** Klikněte na název větve v dolní liště a přepněte se zpět do cílové větve (např. `main`).
@@ -216,7 +250,7 @@ Když je práce ve vývojové větvi hotová, je třeba ji včlenit do hlavní l
 3. **Zdroj:** Vyberte větev, kterou chcete sloučit (např. vaši rozpracovanou funkci).
 4. **Dokončení:** Git se pokusí o automatické sloučení. Pokud narazí na konflikty, VS Code je barevně zvýrazní přímo v editoru, kde můžete zvolit možnost *Accept Current Change* (ponechat verzi z `main`) nebo *Accept Incoming Change* (přijmout verzi z vaší větve).
 
-## 6.5 Publikace na GitHub (Push)
+## 4.5 Publikace na GitHub (Push)
 Pro zálohování kódu do cloudu:
 
 1.  V panelu **Source Control** klikněte na **Publish Branch**.
@@ -225,11 +259,11 @@ Pro zálohování kódu do cloudu:
 
 ---
 
-# 7. Specifika práce v cloudu: Google Colab a GitHub
+# 5. Google Colab a GitHub
 
 Zatímco ve VS Code pracujeme s lokálním klonem repozitáře, Google Colab běží na dočasném virtuálním stroji. Jakékoli soubory stažené nebo vytvořené mimo připojený Google Drive jsou po ukončení relace smazány. Z tohoto důvodu vyžaduje verzování odlišný přístup.
 
-## 7.1 Nativní integrace (GUI přístup)
+## 5.1 GUI přístup
 Google Colab disponuje vestavěnou funkcí pro přímé ukládání notebooků na GitHub bez nutnosti používat příkazovou řádku.
 
 ### Uložení práce na GitHub (Push)
@@ -251,10 +285,10 @@ Pro načtení existující práce:
 3.  Vyhledejte repozitář nebo vložte URL adresu.
 4.  Kliknutím na ikonu "Open in Colab" (často odznak v `README.md`) nebo výběrem ze seznamu se spustí nová relace.
 
-## 7.2 Správa dat v Colabu
-Zásadní rozdíl oproti lokálnímu vývoji je v persistenci dat. V prostředí Colab se data po ukončení session mažou.
+## 5.2 Správa dat v Colabu
+Hlavní rozdíl oproti lokálnímu vývoji je v dočasnosti prostředí. V Colabu se data po ukončení relace mažou.
 
-* **Kód (Notebook):** Ukládáme na **GitHub** (viz bod 7.1).
+* **Kód (Notebook):** Ukládáme na **GitHub** (viz bod 5.1).
 * **Velká data (Rastr/Shapefile):** Ukládáme na **Google Drive**.
 
 Pro přístup k datům na Disku je nutné je připojit (Mount):
@@ -264,7 +298,7 @@ from google.colab import drive
 drive.mount('/content/drive')
 ```
 
-## 7.3 Práce s větvemi (Branches) v Google Colab
+## 5.3 Práce s větvemi (Branches) v Google Colab
 
 Google Colab nemá plnohodnotné grafické rozhraní pro správu Git repozitáře (jako panel *Source Control* ve VS Code). Práce s větvemi proto probíhá specifickým způsobem.
 
