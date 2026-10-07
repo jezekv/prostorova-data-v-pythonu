@@ -109,11 +109,11 @@ V tomto cvičení si projdeme základy lokálního vývoje. Otevřete si příka
 
 2. **Klonování repozitáře:**
    ```bash
-   git clone https://github.com/jezekvi/Spatial-Data-Science-with-Python.git
+   git clone https://github.com/jezekv/prostorova-data-v-pythonu.git
    ```
 
 3. **Prozkoumejte stažený projekt:**
    ```bash
-   cd Spatial-Data-Science-with-Python
+   cd prostorova-data-v-pythonu
    git log
    ```
