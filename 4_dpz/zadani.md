@@ -1,16 +1,16 @@
 # Zpracování družicových dat Sentinel-2
 
-V této lekci si ukážeme jak pracovat s družicovými daty mise **Sentinel-2**. Zaměříme se na to, jak zpracovávat multispektrální rastry pomocí knihoven `xarray` a `rioxarray`.
+V této lekci se seznámíme se zpracováním družicových dat mise **Sentinel-2**. Zaměříme se na to, jak zpracovávat multispektrální rastry pomocí knihoven `xarray` a `rioxarray`.
 
 ---
 
 ## 1. Princip práce s rastry v xarray
 
-Družcové snímky neinterpretujeme jako prostá obrazová data, nýbrž jako **vícerozměrná pole** (N-dimensional, ND).
+Družicové snímky interpretujeme jako **vícerozměrná pole** (N-dimensional arrays, ND).
 
-* Pracujeme s objektem `xarray.DataArray`. Ten kromě samotných hodnot pixelů nese i metadata o souřadnicovém systému, prostorovém rozlišení, jednotkách atd.
+* Pracujeme s objektem `xarray.DataArray`, který reprezentuje vícerozměrné pole hodnot a kromě samotných hodnot pixelů uchovává také informace o souřadnicích a atributech jako je prostorové rozlišení nebo jednotky.
 * Typický rastr je v `xarray` reprezentován třemi dimenzemi: `(band, y, x)`.
-* `rioxarray`: Geosprostorové rozšíření pro `xarray`. Přidává schopnost rozumět souřadnicovým systémům, provádět reprojekce, ořezy, exportovat výsledky do standardních GIS formátů atd.
+* `rioxarray`: Geoprostorové rozšíření pro `xarray`.  Prostřednictvím rozhraní `.rio` přidává schopnost pracovat se souřadnicovými systémy, provádět reprojekce a ořezy či exportovat výsledky do standardních GIS formátů.
 
 ### Odkazy k dokumentaci:
 * [Dokumentace xarray](https://docs.xarray.dev/en/stable/)
@@ -20,7 +20,7 @@ Družcové snímky neinterpretujeme jako prostá obrazová data, nýbrž jako **
 
 ## 2. Zadání cvičení
 
-Vaším úkolem je zpracovat data úrovně **L2A**  ze složky `s2_data` a provést základní analýzu vegetace.
+Vaším úkolem je zpracovat data úrovně **L2A** ze složky `s2_data` a provést základní analýzu vegetace.
 
 ### Postup práce:
 
